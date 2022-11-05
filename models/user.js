@@ -3,11 +3,11 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
     {
-        username: {
+        id: {
             type: String,
             required: true
         },
-        password: {
+        fullName: {
             type: String,
             required: true
         },

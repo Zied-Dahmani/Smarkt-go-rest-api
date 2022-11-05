@@ -2,6 +2,26 @@ import User from "../models/User.js";
 import { validationResult } from "express-validator";
 
 
+export function signUp(req, res) {
+
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else 
+  User.create(req.body)
+    .then((newUser) => {
+      res.status(200).json({
+        id: newUser.id,
+        fullName: newUser.fullName,
+        wallet: newUser.wallet,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}
+
+/*
 
 export function getAll(req, res) {
     User.find({})
@@ -21,31 +41,6 @@ export function getAll(req, res) {
       res.status(500).json({ error: err });
     });
 }
-
-/*
-
-export function addOnce(req, res) {
-
-  if(!validationResult(req).isEmpty()){
-    res.status(400).json({errors: validationResult(req).array() })
-  }
-  else 
-  Game.create({
-    title: newGame.title,
-    description: newGame.description,
-    price: newGame.price,
-    quantity: newGame.quantity,
-    image:`${req.protocol}://${req.get('host')}/img/${req.file.filename}`
-  })
-    .then((newGame) => {
-      res.status(200).json({newGame});
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-}
-
-
 
 export function getOnce(req, res) {
   Game.findById(req.params.id)
