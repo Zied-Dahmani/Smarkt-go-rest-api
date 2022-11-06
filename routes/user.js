@@ -18,7 +18,7 @@ router
   .post(signUp);
 
 router
-  .route('/signIn')
+  .route('/signIn/:id')
   .get(signIn);
 
 export default router;

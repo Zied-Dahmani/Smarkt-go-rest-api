@@ -26,7 +26,7 @@ export function signIn(req, res) {
   User.find({})
     .then((docs) => {
       for (let i = 0; i < docs.length; i++) {
-        if(docs[i].id == req.body.id)
+        if(docs[i].id == req.params.id)
         return res.status(200).json(docs[i]);
       }
       res.status(404).json(null);
