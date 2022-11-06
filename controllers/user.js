@@ -10,16 +10,32 @@ export function signUp(req, res) {
   else 
   User.create(req.body)
     .then((newUser) => {
-      res.status(200).json({
-        id: newUser.id,
-        fullName: newUser.fullName,
-        wallet: newUser.wallet,
-      });
+      res.status(201).json(req.body);
     })
     .catch((err) => {
       res.status(500).json({ error: err });
     });
 }
+
+export function signIn(req, res) {
+
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else 
+  User.find({})
+    .then((docs) => {
+      for (let i = 0; i < docs.length; i++) {
+        if(docs[i].id == req.body.id)
+        return res.status(200).json(docs[i]);
+      }
+      res.status(404).json(null);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}
+
 
 /*
 
@@ -42,15 +58,6 @@ export function getAll(req, res) {
     });
 }
 
-export function getOnce(req, res) {
-  Game.findById(req.params.id)
-    .then((doc) => {
-      res.status(200).json(doc);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-}
 
 export function putOnce(req, res) {
   Game.findByIdAndUpdate(req.params.id, req.body)
