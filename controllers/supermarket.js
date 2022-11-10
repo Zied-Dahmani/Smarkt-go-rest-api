@@ -10,12 +10,13 @@ export function create(req, res) {
   else 
   Supermarket.create({
     name: req.body.name,
-    image:`${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
+    //image:`${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
+    image: req.body.image,
     description: req.body.description,
     address: req.body.address,
     location: req.body.location,
   })
-    .then((supermarket) => {
+    .then(() => {
       res.status(201).json(req.body);
     })
     .catch((err) => {

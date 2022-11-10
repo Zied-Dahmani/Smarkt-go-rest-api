@@ -25,7 +25,7 @@ const supermarketSchema = new Schema(
         },
         image: {
             type: String,
-            //required: true
+            required: true
         },
         description: {
             type: String,
@@ -37,7 +37,7 @@ const supermarketSchema = new Schema(
         },
         location: {
             type: geoPointSchema,
-           // required: true
+           required: true
         }
         
     },
