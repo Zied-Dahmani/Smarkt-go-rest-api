@@ -39,26 +39,26 @@ export function getAll(req, res) {
     });
 }
 
-export function findNearest(req, res) {
-
-  if(!validationResult(req).isEmpty()){
-    res.status(400).json({errors: validationResult(req).array() })
-  }
-  else 
-  Supermarket.find({})
-    .then((docs) => {
-      let list = [];
-      for (let i = 0; i < docs.length; i++) {
-        if(docs[i].location.coordinates[0] == req.body.location.coordinates[0] && docs[i].location.coordinates[1] == req.body.location.coordinates[1] )
-        list.push(docs[i]);  }
+export function getNearest(req, res) {
+  if (!validationResult(req).isEmpty()) {
+    res.status(400).json({ errors: validationResult(req).array() });
+  } else
+    Supermarket.find({})
+      .then((docs) => {
+        let list = [];
+        for (let i = 0; i < docs.length; i++) {
+          if (
+            docs[i].location.coordinates[0] ==
+              req.body.location.coordinates[0] &&
+            docs[i].location.coordinates[1] == req.body.location.coordinates[1]
+          )
+            list.push(docs[i]);
+        }
         res.status(200).json(list);
-    
       })
-      
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
 }
 
   

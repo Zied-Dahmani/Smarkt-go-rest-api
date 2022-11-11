@@ -1,13 +1,13 @@
 import express from 'express';
 
-import { getAll, create, findNearest } from '../controllers/supermarket.js';
+import { getAll, create, getNearest } from '../controllers/supermarket.js';
   
 const router = express.Router();
 
 router
   .route('/')
   .get(getAll)
-  .post(findNearest)
+  .post(getNearest)
 
   
 

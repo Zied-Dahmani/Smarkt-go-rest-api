@@ -18,22 +18,16 @@ export function signUp(req, res) {
 }
 
 export function signIn(req, res) {
-
-  if(!validationResult(req).isEmpty()){
-    res.status(400).json({errors: validationResult(req).array() })
-  }
-  else 
-  User.find({})
-    .then((docs) => {
-      for (let i = 0; i < docs.length; i++) {
-        if(docs[i].id == req.body.id)
-        return res.status(200).json(docs[i]);
-      }
-      res.status(404).json(null);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
+  if (!validationResult(req).isEmpty()) {
+    res.status(400).json({ errors: validationResult(req).array() });
+  } else
+    User.findOne({ id: req.body.id })
+      .then((doc) => {
+        res.status(200).json(doc);
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
 }
 
 
