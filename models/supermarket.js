@@ -37,9 +37,8 @@ const supermarketSchema = new Schema(
         },
         location: {
             type: geoPointSchema,
-           required: true
+            required: true
         }
-        
     },
     {
         timestamps: true

@@ -9,8 +9,6 @@ router
   .get(getAll)
   .post(getNearest)
 
-  
-
   router
   .route('/create')
   .post(create);

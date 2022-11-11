@@ -3,7 +3,6 @@ import { validationResult } from "express-validator";
 import {getDistance } from "geolib"
 
 export function create(req, res) {
-
   if(!validationResult(req).isEmpty()){
     res.status(400).json({errors: validationResult(req).array() })
   }
@@ -53,8 +52,8 @@ export function getNearest(req, res) {
               longitude: docs[i].location.coordinates[1],
             },
             {
-              latitude: req.body.location.coordinates[0],
-              longitude: req.body.location.coordinates[1],
+              latitude: req.body.coordinates[0],
+              longitude: req.body.coordinates[1],
             }
           );
           if (distance / 1000 < 5) list.push(docs[i]);
