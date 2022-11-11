@@ -1,6 +1,6 @@
 import Supermarket from "../models/supermarket.js";
 import { validationResult } from "express-validator";
-
+import {getDistance } from "geolib"
 
 export function create(req, res) {
 
@@ -47,12 +47,17 @@ export function getNearest(req, res) {
       .then((docs) => {
         let list = [];
         for (let i = 0; i < docs.length; i++) {
-          if (
-            docs[i].location.coordinates[0] ==
-              req.body.location.coordinates[0] &&
-            docs[i].location.coordinates[1] == req.body.location.coordinates[1]
-          )
-            list.push(docs[i]);
+          let distance = getDistance(
+            {
+              latitude: docs[i].location.coordinates[0],
+              longitude: docs[i].location.coordinates[1],
+            },
+            {
+              latitude: req.body.location.coordinates[0],
+              longitude: req.body.location.coordinates[1],
+            }
+          );
+          if (distance / 1000 < 5) list.push(docs[i]);
         }
         res.status(200).json(list);
       })
