@@ -29,7 +29,20 @@ export function signIn(req, res) {
         res.status(500).json({ error: err });
       });
 }
-
+export function updateProfile(req, res) {
+  
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else 
+  User.findOneAndUpdate({id:req.body.id},{fullName : req.body.fullName})
+    .then((newUser) => {
+      res.status(200).json(req.body);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}
 
 /*
 
