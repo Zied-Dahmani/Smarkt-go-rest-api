@@ -9,11 +9,11 @@ router
   .get(getAll)
   .post(getNearest)
 
-  router
+router
   .route('/create')
   .post(create);
 
-  router
+router
   .route('/getCategories')
   .get(getCategories)
 

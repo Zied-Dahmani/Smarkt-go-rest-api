@@ -29,6 +29,8 @@ export function signIn(req, res) {
         res.status(500).json({ error: err });
       });
 }
+
+
 export function updateProfile(req, res) {
   
   if(!validationResult(req).isEmpty()){

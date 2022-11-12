@@ -23,7 +23,6 @@ export function create(req, res) {
     });
 }
 
-
 export function getAll(req, res) {
     Supermarket.find({})
     .then((docs) => {
@@ -64,6 +63,7 @@ export function getNearest(req, res) {
         res.status(500).json({ error: err });
       });
 }
+
 export function getCategories(req, res) {
   if(!validationResult(req).isEmpty()){
     res.status(400).json({errors: validationResult(req).array() })
