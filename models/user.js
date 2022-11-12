@@ -9,7 +9,7 @@ const userSchema = new Schema(
         },
         fullName: {
             type: String,
-            required: true
+            required: false
         },
         wallet: {
             type: Number,

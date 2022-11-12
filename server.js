@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import userRoutes from './routes/user.js';
+import supermarketRoutes from './routes/supermarket.js';
 import { errorHandler, notFoundError } from './middlewares/error-handler.js';
 
 const app = express();
@@ -42,6 +43,7 @@ app.use(express.static('public'));
 app.use('/img',express.static('public/images'));
 
 app.use('/user', userRoutes);
+app.use('/supermarket', supermarketRoutes);
 app.use(errorHandler);
 app.use(notFoundError);
 
