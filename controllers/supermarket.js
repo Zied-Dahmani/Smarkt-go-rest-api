@@ -64,5 +64,15 @@ export function getNearest(req, res) {
         res.status(500).json({ error: err });
       });
 }
+export function getCategories(req, res) {
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else 
+  {
+    let list = ["Drinks","Fruits","Vegetables"];
+    res.status(200).json(list);
+  }
 
+}
   
