@@ -8,6 +8,8 @@ const router = express.Router();
 router
   .route('/signin')
   .post(signin);  
+
+
 router
   .route('/:id')
   .put(putOnce);
@@ -21,8 +23,9 @@ router
   .route('/signIn')
   .post(signIn);
 
-  router
+router
   .route('/update')
   .put(updateProfile)
+
 
 export default router;

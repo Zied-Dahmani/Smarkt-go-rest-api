@@ -38,6 +38,10 @@ const supermarketSchema = new Schema(
         location: {
             type: geoPointSchema,
             required: true
+        },
+        favorites: {
+            type: Array,
+            required: true
         }
     },
     {

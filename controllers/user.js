@@ -46,6 +46,8 @@ export function updateProfile(req, res) {
     });
 }
 
+
+
 /*
 
 export function getAll(req, res) {
