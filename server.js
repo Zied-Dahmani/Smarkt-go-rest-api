@@ -6,6 +6,8 @@ import cors from 'cors';
 import userRoutes from './routes/user.js';
 import supermarketRoutes from './routes/supermarket.js';
 import itemRoutes from './routes/item.js';
+import orderRoutes from './routes/order.js'
+
 import { errorHandler, notFoundError } from './middlewares/error-handler.js';
 
 const app = express();
@@ -46,6 +48,8 @@ app.use('/img',express.static('public/images'));
 app.use('/user', userRoutes);
 app.use('/supermarket', supermarketRoutes);
 app.use('/item', itemRoutes);
+app.use('/order', orderRoutes);
+
 app.use(errorHandler);
 app.use(notFoundError);
 

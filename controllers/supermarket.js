@@ -76,7 +76,6 @@ export function getCategories(req, res) {
 
 }
 
-
 export function getFavorites(req, res) {
   Supermarket.find({})
   .then((docs) => {
