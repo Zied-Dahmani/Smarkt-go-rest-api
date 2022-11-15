@@ -1,11 +1,11 @@
 import express from 'express';
 
-import { create } from '../controllers/order.js';
+import { add } from '../controllers/order.js';
   
 const router = express.Router();
 
 router
-  .route('/create')
-  .post(create);
+  .route('/add')
+  .post(add);
 
   export default router;

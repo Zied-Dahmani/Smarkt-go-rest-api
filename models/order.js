@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
-import Item from "../models/item.js";
 
 const orderSchema = new Schema(
     {
-       supermarketName: {
+        userId: {
             type: String,
             required: true
         },
