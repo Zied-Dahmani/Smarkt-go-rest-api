@@ -25,7 +25,7 @@ router
 
 router
   .route('/update')
-  .put(updateProfile)
+  .post(updateProfile)
 
 
 export default router;

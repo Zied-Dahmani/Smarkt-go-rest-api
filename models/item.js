@@ -26,11 +26,14 @@ const itemSchema = new Schema(
             type: String,
             required: true
         },
+        supermarketName: {
+            type: String,
+            required: true
+        },
         quantity: {
             type: Number,
-            required: false
+            required: true
         }
-      
     },
     {
         timestamps: true

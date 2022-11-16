@@ -37,7 +37,7 @@ export function updateProfile(req, res) {
     res.status(400).json({errors: validationResult(req).array() })
   }
   else 
-  User.findOneAndUpdate({id:req.body.id},{fullName : req.body.fullName})
+  User.findOneAndUpdate({id:req.body.id},{fullName : req.body.fullName, wallet: req.body.wallet})
     .then((newUser) => {
       res.status(200).json(req.body);
     })

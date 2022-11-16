@@ -13,7 +13,8 @@ export function create(req, res) {
       description: req.body.description,
       price: req.body.price,
       category: req.body.category,
-      supermarketId: req.body.supermarketId
+      supermarketId: req.body.supermarketId,
+      supermarketName: req.body.supermarketName
     })
       .then(() => {
         res.status(201).json(req.body);

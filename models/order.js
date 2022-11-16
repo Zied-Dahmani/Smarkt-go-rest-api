@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
+
 const orderSchema = new Schema(
     {
         userId: {
@@ -8,9 +9,9 @@ const orderSchema = new Schema(
             required: true
         },
         items: {
-            type: Array(),
+            type: Array,
             required: true
-        },
+        }
     },
     {
         timestamps: true
