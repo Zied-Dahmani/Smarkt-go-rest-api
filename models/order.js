@@ -4,8 +4,8 @@ const { Schema, model } = mongoose;
 
 const orderSchema = new Schema(
     {
-        userId: {
-            type: String,
+        group: {
+            type: Array,
             required: true
         },
         items: {

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { add, deleteOrder, get, removeItem } from '../controllers/order.js';
+import { add, addUser, deleteOrder, get, removeItem } from '../controllers/order.js';
   
 const router = express.Router();
 
@@ -20,4 +20,7 @@ router
   .route('/delete')
   .post(deleteOrder);
 
+router
+  .route('/addUser')
+  .post(addUser)
 export default router;

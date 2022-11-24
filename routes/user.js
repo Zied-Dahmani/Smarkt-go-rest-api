@@ -1,7 +1,7 @@
 import express from 'express';
 
-import { signUp, signIn ,updateProfile} from '../controllers/user.js';
-  
+import { signUp, signIn ,updateProfile, get} from '../controllers/user.js';
+
 const router = express.Router();
 
 /*
@@ -27,5 +27,9 @@ router
   .route('/update')
   .post(updateProfile)
 
+router
+  .route('/get')
+  .post(get)
+  
 
 export default router;

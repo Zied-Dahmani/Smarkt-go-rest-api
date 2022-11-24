@@ -58,20 +58,13 @@ export function updateWallet(id,wallet,res) {
 }
 
 
-
-/*
-
-export function getAll(req, res) {
+export function get(req, res) {
     User.find({})
     .then((docs) => {
       let list = [];
       for (let i = 0; i < docs.length; i++) {
-        list.push({
-          id: docs[i]._id,
-          username: docs[i].username,
-          password: docs[i].password,
-          wallet: docs[i].wallet,
-        });
+        if(!docs[i].fullName=="" && !req.body.group.includes(docs[i].id))
+        list.push(docs[i]);
       }
       res.status(200).json(list);
     })
@@ -81,20 +74,3 @@ export function getAll(req, res) {
 }
 
 
-export function putOnce(req, res) {
-  Game.findByIdAndUpdate(req.params.id, req.body)
-    .then((doc1) => {
-      Game.findById(req.params.id)
-        .then((doc2) => {
-          res.status(200).json(doc2);
-        })
-        .catch((err) => {
-          res.status(500).json({ error: err });
-        });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-
-}
-    */
