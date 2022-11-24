@@ -32,7 +32,6 @@ export function signIn(req, res) {
 
 
 export function updateProfile(req, res) {
-  
   if(!validationResult(req).isEmpty()){
     res.status(400).json({errors: validationResult(req).array() })
   }
@@ -40,6 +39,18 @@ export function updateProfile(req, res) {
   User.findOneAndUpdate({id:req.body.id},{fullName : req.body.fullName, wallet: req.body.wallet})
     .then((newUser) => {
       res.status(200).json(req.body);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}
+
+
+export function updateWallet(id,wallet,res) {
+  
+  User.findOneAndUpdate({id:id},{wallet: wallet})
+    .then(() => {
+      res.status(200).json({});
     })
     .catch((err) => {
       res.status(500).json({ error: err });
