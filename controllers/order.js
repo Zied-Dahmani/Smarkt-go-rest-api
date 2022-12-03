@@ -45,8 +45,8 @@ export function add(req, res) {
               items.push(req.body.items[0])
     
               Order.findOneAndUpdate({_id:order._id},{items : items})
-              .then((order) => {
-                res.status(200).json(req.body);
+              .then(() => {
+                res.status(200).json(order);
               })
               .catch((err) => {
                 res.status(500).json({ error: err });
@@ -62,8 +62,8 @@ export function add(req, res) {
         group: Array(req.body.userId), 
         items: req.body.items
       })
-      .then(()=> {
-        res.status(201).json(req.body);
+      .then((order)=> {
+        res.status(201).json(order);
       })
       .catch((err) => {
         res.status(500).json({ error: err });
@@ -102,8 +102,8 @@ export function deleteOrder(req, res) {
         if(docs[i].group.includes(req.body.id))
         Order.deleteOne({_id: docs[i].id})
         .then((order) => 
-        {  
-          res.status(200).json(order);
+        {
+          res.status(200).json(docs[i]);
         })
         .catch((err) => {
           res.status(500).json({ error: err });
