@@ -58,12 +58,12 @@ export function updateWallet(id,wallet,res) {
 }
 
 
-export function get(req, res) {
+export function getGroupMembers(req, res) {
     User.find({})
     .then((docs) => {
       let list = [];
       for (let i = 0; i < docs.length; i++) {
-        if(!docs[i].fullName=="" && !req.body.group.includes(docs[i].id))
+        if(!docs[i].fullName=="" && req.body.group.includes(docs[i].id))
         list.push(docs[i]);
       }
       res.status(200).json(list);
@@ -71,6 +71,17 @@ export function get(req, res) {
     .catch((err) => {
       res.status(500).json({ error: err });
     });
+}
+
+
+export function getAllUsers(req, res) {
+  User.find({})
+  .then((docs) => {
+    res.status(200).json(docs);
+  })
+  .catch((err) => {
+    res.status(500).json({ error: err });
+  });
 }
 
 

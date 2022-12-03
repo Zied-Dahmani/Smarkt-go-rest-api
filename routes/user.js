@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { signUp, signIn ,updateProfile, get} from '../controllers/user.js';
+import { signUp, signIn ,updateProfile, getGroupMembers, getAllUsers} from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -28,8 +28,11 @@ router
   .post(updateProfile)
 
 router
-  .route('/get')
-  .post(get)
+  .route('/getGroupMembers')
+  .post(getGroupMembers)
   
+router
+  .route('/getAllUsers')
+  .get(getAllUsers)
 
 export default router;
