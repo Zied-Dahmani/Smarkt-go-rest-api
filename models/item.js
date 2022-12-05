@@ -1,24 +1,8 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const geoPointSchema = new Schema(
+const itemSchema = new Schema(
     {
-        type:{
-            type: String,
-            default: "Point",
-            required: true
-        },
-        coordinates: {
-            type: [Number],
-            required: true
-        }
-    }
-
-)
-
-const supermarketSchema = new Schema(
-    {
-        
         name: {
             type: String,
             required: true
@@ -28,19 +12,26 @@ const supermarketSchema = new Schema(
             required: true
         },
         description: {
+            type: String
+        },
+        price:{
+            type: Number,
+            required: true
+        },
+        category: {
             type: String,
             required: true
         },
-        address: {
+        supermarketId: {
             type: String,
             required: true
         },
-        location: {
-            type: geoPointSchema,
+        supermarketName: {
+            type: String,
             required: true
         },
-        favorites: {
-            type: Array,
+        quantity: {
+            type: Number,
             required: true
         }
     },
@@ -49,4 +40,4 @@ const supermarketSchema = new Schema(
     }
 );
 
-export default model('Supermarket', supermarketSchema);
+export default model('Item', itemSchema);

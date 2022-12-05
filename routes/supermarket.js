@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { getAll, create, getNearest, getCategories } from '../controllers/supermarket.js';
+import { getAll, create, getNearest, getCategories, getFavorites, isFavorite, addRemoveFavorite } from '../controllers/supermarket.js';
   
 const router = express.Router();
 
@@ -9,12 +9,25 @@ router
   .get(getAll)
   .post(getNearest)
 
-  router
+router
   .route('/create')
   .post(create);
 
-  router
+router
   .route('/getCategories')
   .get(getCategories)
 
-export default router;
+router
+  .route('/getFavorites')
+  .post(getFavorites)
+
+router
+  .route('/isFavorite')
+  .post(isFavorite)
+
+router
+  .route('/addRemoveFavorite')
+  .post(addRemoveFavorite)
+
+
+  export default router;

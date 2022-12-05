@@ -5,6 +5,10 @@ import cors from 'cors';
 
 import userRoutes from './routes/user.js';
 import supermarketRoutes from './routes/supermarket.js';
+import itemRoutes from './routes/item.js';
+import orderRoutes from './routes/order.js';
+import ticketRoutes from './routes/ticket.js';
+
 import { errorHandler, notFoundError } from './middlewares/error-handler.js';
 
 const app = express();
@@ -28,7 +32,8 @@ mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
 mongoose
-  .connect(`mongodb://localhost:27017/${databaseName}`)
+  //.connect(`mongodb://localhost:27017/${databaseName}`)
+  .connect(`mongodb://mongo:zSj3YLDdEQN1EJYRyIPq@containers-us-west-96.railway.app:7213`)
   .then(() => {
     console.log(`Connected to ${databaseName}`);
   })
@@ -44,6 +49,10 @@ app.use('/img',express.static('public/images'));
 
 app.use('/user', userRoutes);
 app.use('/supermarket', supermarketRoutes);
+app.use('/item', itemRoutes);
+app.use('/order', orderRoutes);
+app.use('/ticket', ticketRoutes);
+
 app.use(errorHandler);
 app.use(notFoundError);
 

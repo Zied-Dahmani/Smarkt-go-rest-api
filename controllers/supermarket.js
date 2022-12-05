@@ -23,15 +23,14 @@ export function create(req, res) {
     });
 }
 
-
 export function getAll(req, res) {
     Supermarket.find({})
     .then((docs) => {
-      let list = [];
+      /*let list = [];
       for (let i = 0; i < docs.length; i++) {
         list.push(docs[i]);
-      }
-      res.status(200).json(list);
+      }*/
+      res.status(200).json(docs);
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -64,6 +63,7 @@ export function getNearest(req, res) {
         res.status(500).json({ error: err });
       });
 }
+
 export function getCategories(req, res) {
   if(!validationResult(req).isEmpty()){
     res.status(400).json({errors: validationResult(req).array() })
@@ -75,4 +75,46 @@ export function getCategories(req, res) {
   }
 
 }
+
+export function getFavorites(req, res) {
+  Supermarket.find({})
+  .then((docs) => {
+    let list = [];
+    for (let i = 0; i < docs.length; i++) {
+      if(docs[i].favorites.includes(req.body.id))
+      list.push(docs[i]);
+    }
+    res.status(200).json(list);
+  })
+  .catch((err) => {
+    res.status(500).json({ error: err });
+  });
+}
+
+export function isFavorite(req, res) {
+  if (!validationResult(req).isEmpty()) {
+    res.status(400).json({ errors: validationResult(req).array() });
+  } else
+    Supermarket.findOne({ _id: req.body.supermarketId })
+      .then((doc) => {
+        res.status(200).json(doc.favorites);        
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err });
+      });
+}
   
+export function addRemoveFavorite(req, res) {
+  
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else 
+  Supermarket.findOneAndUpdate({_id:req.body.supermarketId},{favorites : req.body.favorites})
+    .then((doc) => {
+      res.status(200).json(doc);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}

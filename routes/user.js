@@ -1,13 +1,15 @@
 import express from 'express';
 
-import { signUp, signIn ,updateProfile} from '../controllers/user.js';
-  
+import { signUp, signIn ,updateProfile, getGroupMembers, getAllUsers} from '../controllers/user.js';
+
 const router = express.Router();
 
 /*
 router
   .route('/signin')
   .post(signin);  
+
+
 router
   .route('/:id')
   .put(putOnce);
@@ -21,8 +23,16 @@ router
   .route('/signIn')
   .post(signIn);
 
-  router
+router
   .route('/update')
-  .put(updateProfile)
+  .post(updateProfile)
+
+router
+  .route('/getGroupMembers')
+  .post(getGroupMembers)
+  
+router
+  .route('/getAllUsers')
+  .get(getAllUsers)
 
 export default router;

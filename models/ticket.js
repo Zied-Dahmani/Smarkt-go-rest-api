@@ -1,24 +1,24 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const userSchema = new Schema(
+const ticketSchmea = new Schema(
     {
-        id: {
-            type: String,
-            required: true
-        },
-        fullName: {
-            type: String,
-            required: false
-        },
-        wallet: {
+        code: {
             type: Number,
             required: true
         },
+        value: {
+            type: Number,
+            required: true
+        },
+        used: {
+            type: Boolean,
+            required: true
+        }
     },
     {
         timestamps: true
     }
 );
 
-export default model('User', userSchema);
+export default model('Ticket', ticketSchmea);
