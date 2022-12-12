@@ -1,37 +1,33 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const itemSchema = new Schema(
+const reviewSchema = new Schema(
     {
-        name: {
+        title: {
             type: String,
             required: true
         },
-        image: {
+        username: {
             type: String,
             required: true
         },
         description: {
             type: String
         },
-        price:{
+        rating: {
             type: Number,
-            required: true
-        },
-        category: {
-            type: String,
             required: true
         },
         supermarketId: {
             type: String,
             required: true
         },
-        supermarketName: {
+        userId: {
             type: String,
             required: true
         },
-        quantity: {
-            type: Number,
+        supermarketName: {
+            type: String,
             required: false
         }
     },
@@ -40,4 +36,4 @@ const itemSchema = new Schema(
     }
 );
 
-export default model('Item', itemSchema);
+export default model('Review', reviewSchema);
