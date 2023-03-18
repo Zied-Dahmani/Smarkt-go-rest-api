@@ -1,19 +1,8 @@
 import express from 'express';
 
-import { signUp, signIn ,updateProfile, getGroupMembers, getAllUsers} from '../controllers/user.js';
+import { signUp, signIn , signOut, updateProfile, getGroupMembers, getAllUsers} from '../controllers/user.js';
 
 const router = express.Router();
-
-/*
-router
-  .route('/signin')
-  .post(signin);  
-
-
-router
-  .route('/:id')
-  .put(putOnce);
-  */
 
 router
   .route('/signUp')
@@ -22,6 +11,10 @@ router
 router
   .route('/signIn')
   .post(signIn);
+
+router
+  .route('/signOut')
+  .get(signOut);
 
 router
   .route('/update')

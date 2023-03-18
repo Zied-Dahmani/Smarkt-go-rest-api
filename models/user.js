@@ -11,10 +11,14 @@ const userSchema = new Schema(
             type: String,
             required: false
         },
+        image: {
+            type: String,
+            required: false
+        },
         wallet: {
             type: Number,
-            required: true
-        },
+            required: false
+        }
     },
     {
         timestamps: true

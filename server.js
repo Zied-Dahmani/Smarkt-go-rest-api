@@ -33,8 +33,8 @@ mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 
 mongoose
-  //.connect(`mongodb://localhost:27017/${databaseName}`)
-  .connect(`mongodb://mongo:MDp4k2p5PjnCEP4WXv86@containers-us-west-96.railway.app:7213`)
+  .connect(`mongodb://localhost:27017/${databaseName}`)
+  //.connect(`mongodb://mongo:MDp4k2p5PjnCEP4WXv86@containers-us-west-96.railway.app:7213`)
   .then(() => {
     console.log(`Connected to ${databaseName}`);
   })

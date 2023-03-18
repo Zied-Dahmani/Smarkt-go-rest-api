@@ -1,34 +1,65 @@
 import User from "../models/user.js";
 import { validationResult } from "express-validator";
+import jwt from 'jsonwebtoken';
 
-
-export function signUp(req, res) {
-
-  if(!validationResult(req).isEmpty()){
-    res.status(400).json({errors: validationResult(req).array() })
-  }
-  else 
-  User.create(req.body)
-    .then((newUser) => {
-      res.status(201).json(req.body);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
+// create json web token
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({id}, 'heal secret key', {
+        expiresIn: maxAge
     });
+};
+
+export const signUp = async (req, res) => {
+  
+  const userCount = (await User.countDocuments()) + 1
+
+    const user = new User({id: req.body.id,fullName: req.body.fullName ?? "User"+userCount, image: req.body.image ?? "img/person.png", wallet: 0})
+    user.save()
+        .then(() => {
+            const token = createToken(user._id);
+
+            res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000});
+            res.header('jwt', token)
+            res.status(201).json({
+                token, ...user._doc
+            });
+        })
+        .catch((err) => {
+            res.status(400).json({error: err.message});
+        })
 }
 
-export function signIn(req, res) {
+export const signIn = async (req, res) => {
   if (!validationResult(req).isEmpty()) {
     res.status(400).json({ errors: validationResult(req).array() });
-  } else
-    User.findOne({ id: req.body.id })
-      .then((doc) => {
-        res.status(200).json(doc);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
-      });
+  } else{
+    try {
+        const user = await User.findOne({id: req.body.id});
+        if (user) {
+                const token = createToken(user._id);
+                res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000});
+                res.header("jwt", token)
+                res.status(200).json({
+                    token, ...user._doc
+                });
+            
+        } else {
+            res.status(404).json({error: "No user found"})
+        }
+    } catch (err) {
+        res.status(400).json({error: err.message})
+    }
+  }
 }
+
+export const signOut = async (req, res) => {
+    res.cookie('jwt', '', {maxAge: 1});
+    res.header('jwt', '')
+    res.status(200).send({"msg": "signed out"});
+}
+
+
 
 
 export function updateProfile(req, res) {
