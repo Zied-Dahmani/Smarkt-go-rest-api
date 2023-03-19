@@ -14,7 +14,7 @@ export const signUp = async (req, res) => {
   
   const userCount = (await User.countDocuments()) + 1
 
-    const user = new User({id: req.body.id,fullName: req.body.fullName ?? "User"+userCount, image: req.body.image ?? "img/person.png", wallet: 0})
+    const user = new User({provider: req.body.provider,id: req.body.id,fullName: req.body.fullName ?? "User"+userCount, image: req.body.image ?? "img/person.png", wallet: 0})
     user.save()
         .then(() => {
             const token = createToken(user._id);
