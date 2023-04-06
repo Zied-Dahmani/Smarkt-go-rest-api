@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { signUp, signIn , signOut, updateProfile, getGroupMembers, getAllUsers} from '../controllers/user.js';
+import { signUp, signIn , signOut, updateProfile, getGroupMembers, getAllUsers, updateProfilePicture} from '../controllers/user.js';
 
 const router = express.Router();
 
@@ -19,6 +19,10 @@ router
 router
   .route('/update')
   .post(updateProfile)
+
+router
+   .route('/updatePic')
+   .post(updateProfilePicture)
 
 router
   .route('/getGroupMembers')

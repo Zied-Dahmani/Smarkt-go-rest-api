@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import { validationResult } from "express-validator";
 import jwt from 'jsonwebtoken';
+import multerConfig from '../middlewares/multer-config.js';
 
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
@@ -59,8 +60,29 @@ export const signOut = async (req, res) => {
     res.status(200).send({"msg": "signed out"});
 }
 
+const upload = multerConfig('image', { fileSize: 100024 * 100024 * 5 });
+export function updateProfilePicture(req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      // Handle any errors from multer
+      return res.status(500).json({ error: err.message });
+    }
+    if (!validationResult(req).isEmpty()) {
+      res.status(400).json({ errors: validationResult(req).array() });
+    } else if (!req.file) {
+      console.log(req.body);
+    } else {
 
-
+      User.findOneAndUpdate({ id: req.body.id }, {image : `img/${req.file.filename}`})
+        .then((newUser) => {
+          res.status(200).json(req.body);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+    }
+  });
+}
 
 export function updateProfile(req, res) {
   if(!validationResult(req).isEmpty()){

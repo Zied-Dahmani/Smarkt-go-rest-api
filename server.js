@@ -11,6 +11,7 @@ import ticketRoutes from './routes/ticket.js';
 import reviewRoutes from './routes/review.js';
 
 import { errorHandler, notFoundError } from './middlewares/error-handler.js';
+import multerConfig from './middlewares/multer-config.js';
 
 const app = express();
 const port = process.env.PORT || 9090;
@@ -41,7 +42,12 @@ mongoose
   .catch(err => {
     console.log(err);
   });
-
+  const upload = multerConfig('image', { fileSize: 100024 * 100024 * 5 });
+  app.post('/upload-image', upload, (req, res) => {
+    console.log(req.file); 
+    res.send({ message: 'Image uploaded successfully' });
+  });
+  
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
