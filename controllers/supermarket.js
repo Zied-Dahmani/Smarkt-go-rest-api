@@ -37,7 +37,7 @@ export function getAll(req, res) {
     });
 }
 
-export function getNearest(req, res) {
+export function getNearby(req, res) {
   if (!validationResult(req).isEmpty()) {
     res.status(400).json({ errors: validationResult(req).array() });
   } else
@@ -47,12 +47,12 @@ export function getNearest(req, res) {
         for (let i = 0; i < docs.length; i++) {
           let distance = getDistance(
             {
-              latitude: docs[i].location.coordinates[0],
-              longitude: docs[i].location.coordinates[1],
+              latitude: docs[i].location[0],
+              longitude: docs[i].location[1],
             },
             {
-              latitude: req.body.coordinates[0],
-              longitude: req.body.coordinates[1],
+              latitude: req.body.currentLocation[0],
+              longitude: req.body.currentLocation[1],
             }
           );
           if (distance / 1000 < 5) list.push(docs[i]);

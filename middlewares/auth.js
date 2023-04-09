@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../model/user.js";
+import User from "../models/user.js";
 
 // check json web token exists & is verified
 const requireAuth = (req, res, next) => {
@@ -9,6 +9,7 @@ const requireAuth = (req, res, next) => {
     if (token) {
         jwt.verify(token, 'jwt', async (err, decodedToken) => {
             if (err) {
+                console.log(err)
                 res.status(400).send({"message": err.message});
             } else {
                 let user = await User.findById(decodedToken.id);

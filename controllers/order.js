@@ -12,13 +12,17 @@ export function get(req, res) {
     .then((docs) => {
       let order = null
       for (let i = 0; i < docs.length; i++) {
-        if(docs[i].group.includes(req.body.id))
+        if(docs[i].group.includes(req.user._id))
         order = docs[i]
       }
       if(order)
-      res.status(200).json(order);
+      {
+        res.status(200).json(order);
+      }
       else
-      res.status(400).json({message : "Not found!"});
+      {
+        res.status(400).json({message : "Not found!"});
+      }
     })
     .catch((err) => {
       res.status(500).json({ error: err });
@@ -26,9 +30,9 @@ export function get(req, res) {
     
 }
 
-export function add(req, res) {
+export function addToCart(req, res) {
     if(!validationResult(req).isEmpty()){
-      res.status(400).json({errors: validationResult(req).array() })
+      res.status(401).json({errors: validationResult(req).array() })
     }
     else
     Order.find({})
@@ -36,13 +40,13 @@ export function add(req, res) {
       let found = false;
       for (let i = 0; i < docs.length; i++) {
         let order = docs[i];
-        if(order.group.includes(req.body.userId))
+        if(order.group.includes(req.user._id))
         {
             found = true;
-            if(order.items[0].supermarketId == req.body.items[0].supermarketId)
+            if(order.items[0].supermarketId == req.body.item.supermarketId)
             {
               let items = order.items
-              items.push(req.body.items[0])
+              items.push(req.body.item)
     
               Order.findOneAndUpdate({_id:order._id},{items : items})
               .then(() => {
@@ -58,16 +62,19 @@ export function add(req, res) {
         }
       }
       if(!found)
-      Order.create({
-        group: Array(req.body.userId), 
-        items: req.body.items
-      })
-      .then((order)=> {
-        res.status(201).json(order);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: err });
-      });
+      {
+        Order.create({
+          group: Array(req.user._id), 
+          items: Array(req.body.item)
+        })
+        .then((order)=> {
+          res.status(201).json(order);
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+      }
+      
 
     })
     .catch((err) => {
@@ -75,20 +82,28 @@ export function add(req, res) {
     });
   }
 
-export function removeItem(req, res) {
+  export function removeItem(req, res) {
+    if (!validationResult(req).isEmpty()) {
+      res.status(400).json({ errors: validationResult(req).array() });
+    } else {
+      Order.find({}).then((docs) => {
+        for (let i = 0; i < docs.length; i++) {
+          if (docs[i].group.includes(req.user._id)) {
+            console.log(req.body.itemIndex)
+            var newArray = docs[i].items
+            newArray.splice(req.body.itemIndex,1)
+            Order.findOneAndUpdate({ _id: docs[i]._id }, { items: newArray }).catch((err) => {
+              console.error(err);
+            });
+          }
+        }
   
-    if(!validationResult(req).isEmpty()){
-      res.status(400).json({errors: validationResult(req).array() })
-    }
-    else 
-    Order.findOneAndUpdate({group:req.body.group},{items : req.body.items})
-      .then(() => {
         res.status(200).json(req.body);
-      })
-      .catch((err) => {
+      }).catch((err) => {
         res.status(500).json({ error: err });
       });
-}
+    }
+  }
 
 export function deleteOrder(req, res) {
   
@@ -99,7 +114,7 @@ export function deleteOrder(req, res) {
     Order.find({})
     .then((docs) => {
       for (let i = 0; i < docs.length; i++) {
-        if(docs[i].group.includes(req.body.id))
+        if(docs[i].group.includes(req.user._id))
         Order.deleteOne({_id: docs[i].id})
         .then((order) => 
         {

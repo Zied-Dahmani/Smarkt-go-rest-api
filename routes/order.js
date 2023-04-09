@@ -1,24 +1,23 @@
 import express from 'express';
 
-import { add, addUser, deleteOrder, get, removeItem } from '../controllers/order.js';
+import { addToCart, addUser, deleteOrder, get, removeItem } from '../controllers/order.js';
+import {requireAuth } from '../middlewares/auth.js'
   
 const router = express.Router();
 
 router
-  .route('/add')
-  .post(add);
+  .post('/addToCart',requireAuth,addToCart);
 
 router
-  .route('/get')
-  .post(get);
+.get('/get',requireAuth,get);
 
 router
-  .route('/removeItem')
-  .post(removeItem);
+.post('/removeItem',requireAuth,removeItem);
+
 
 router
-  .route('/delete')
-  .post(deleteOrder);
+  .post('/delete',requireAuth,deleteOrder);
+
 
 router
   .route('/addUser')

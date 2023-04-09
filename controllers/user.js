@@ -6,7 +6,7 @@ import multerConfig from '../middlewares/multer-config.js';
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-    return jwt.sign({id}, 'heal secret key', {
+    return jwt.sign({id}, 'jwt', {
         expiresIn: maxAge
     });
 };
@@ -99,9 +99,9 @@ export function updateProfile(req, res) {
 }
 
 
-export function updateWallet(id,wallet,res) {
-  
-  User.findOneAndUpdate({id:id},{wallet: wallet})
+export function updateWallet(req,res) {
+  const wallet = req.user.wallet
+  User.findOneAndUpdate({_id:req.user._id},{wallet: wallet - req.body.total})
     .then(() => {
       res.status(200).json({});
     })
