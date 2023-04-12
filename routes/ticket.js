@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { create, getAll, updateTicket } from '../controllers/ticket.js';
+import { create, getAll, redeemTicket, updateTicket } from '../controllers/ticket.js';
   
 const router = express.Router();
 
@@ -16,5 +16,8 @@ router
   .route('/update')
   .post(updateTicket);
 
+  router
+  .route('/redeem')
+  .post(redeemTicket)
 
   export default router;
