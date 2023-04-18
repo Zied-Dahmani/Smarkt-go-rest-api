@@ -40,3 +40,12 @@ export function getAllBySupermarketIdAndCategory(req, res) {
 }
 
   
+export function bestSellers(req, res) {
+  Item.find({}).sort({ sales: -1 }).limit(5)
+    .then((docs) => {
+      res.status(200).json(docs);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+}

@@ -1,4 +1,6 @@
 import Order from "../models/order.js";
+import Item from "../models/item.js";
+
 import { validationResult } from "express-validator";
 
 
@@ -113,9 +115,18 @@ export function deleteOrder(req, res) {
     else
     Order.find({})
     .then((docs) => {
-      for (let i = 0; i < docs.length; i++) {
+      for (var i = 0; i < docs.length; i++) {
         if(docs[i].group.includes(req.user._id))
-        Order.deleteOne({_id: docs[i].id})
+        {
+          for (var j = 0; j < docs[i].items.length; j++) {
+            const item = docs[i].items[j];
+            var sales = item.sales + item.quantity;
+            Item.findOneAndUpdate({ _id: item._id }, { sales: sales  })
+            .catch((err) => {
+              console.error(err);
+            });
+          }
+       Order.deleteOne({_id: docs[i].id})
         .then((order) => 
         {
           res.status(200).json(docs[i]);
@@ -123,6 +134,7 @@ export function deleteOrder(req, res) {
         .catch((err) => {
           res.status(500).json({ error: err });
         });
+        }
       }
     })
     .catch((err) => {

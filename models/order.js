@@ -11,6 +11,10 @@ const orderSchema = new Schema(
         items: {
             type: Array,
             required: true
+        },
+        isDelivered: {
+            type: Boolean,
+            required: true
         }
     },
     {

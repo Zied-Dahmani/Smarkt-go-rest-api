@@ -33,6 +33,10 @@ const itemSchema = new Schema(
         quantity: {
             type: Number,
             required: false
+        },
+        sales: {
+            type: Number,
+            required: false
         }
     },
     {
