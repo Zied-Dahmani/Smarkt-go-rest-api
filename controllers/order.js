@@ -4,6 +4,21 @@ import Item from "../models/item.js";
 import { validationResult } from "express-validator";
 
 
+export function getMyOrders(req, res) {
+  if(!validationResult(req).isEmpty()){
+    res.status(400).json({errors: validationResult(req).array() })
+  }
+  else{
+    Order.find({isDelivered:true})
+    .then((orders) => {
+      res.status(200).json(orders);
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err });
+    });
+  }
+
+}
 
 export function get(req, res) {
   if(!validationResult(req).isEmpty()){
@@ -14,7 +29,7 @@ export function get(req, res) {
     .then((docs) => {
       let order = null
       for (let i = 0; i < docs.length; i++) {
-        if(docs[i].group.includes(req.user._id))
+        if(docs[i].group.includes(req.user._id) && !docs[i].isDelivered)
         order = docs[i]
       }
       if(order)
@@ -42,7 +57,7 @@ export function addToCart(req, res) {
       let found = false;
       for (let i = 0; i < docs.length; i++) {
         let order = docs[i];
-        if(order.group.includes(req.user._id))
+        if(order.group.includes(req.user._id) && !docs[i].isDelivered)
         {
             found = true;
             if(order.items[0].supermarketId == req.body.item.supermarketId)
@@ -67,7 +82,9 @@ export function addToCart(req, res) {
       {
         Order.create({
           group: Array(req.user._id), 
-          items: Array(req.body.item)
+          items: Array(req.body.item),
+          isDelivered: false,
+          dateTime: new Date()
         })
         .then((order)=> {
           res.status(201).json(order);
@@ -90,8 +107,7 @@ export function addToCart(req, res) {
     } else {
       Order.find({}).then((docs) => {
         for (let i = 0; i < docs.length; i++) {
-          if (docs[i].group.includes(req.user._id)) {
-            console.log(req.body.itemIndex)
+          if (docs[i].group.includes(req.user._id) && !docs[i].isDelivered) {
             var newArray = docs[i].items
             newArray.splice(req.body.itemIndex,1)
             Order.findOneAndUpdate({ _id: docs[i]._id }, { items: newArray }).catch((err) => {
@@ -116,7 +132,7 @@ export function deleteOrder(req, res) {
     Order.find({})
     .then((docs) => {
       for (var i = 0; i < docs.length; i++) {
-        if(docs[i].group.includes(req.user._id))
+        if(docs[i].group.includes(req.user._id) && !docs[i].isDelivered)
         {
           for (var j = 0; j < docs[i].items.length; j++) {
             const item = docs[i].items[j];
@@ -126,14 +142,23 @@ export function deleteOrder(req, res) {
               console.error(err);
             });
           }
-       Order.deleteOne({_id: docs[i].id})
+          Order.findOneAndUpdate({ _id: docs[i]._id }, { isDelivered: true })
+          .then((order) => 
+          {
+            res.status(200).json(docs[i]);
+          })
+          .catch((err) => {
+            res.status(500).json({ error: err });
+          });
+
+       /*Order.deleteOne({_id: docs[i].id})
         .then((order) => 
         {
           res.status(200).json(docs[i]);
         })
         .catch((err) => {
           res.status(500).json({ error: err });
-        });
+        });*/
         }
       }
     })

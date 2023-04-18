@@ -15,6 +15,10 @@ const orderSchema = new Schema(
         isDelivered: {
             type: Boolean,
             required: true
+        },
+        dateTime: {
+            type: Date,
+            required: true
         }
     },
     {
