@@ -1,13 +1,13 @@
 import express from 'express';
 
-import { getAll, create, getNearest, getCategories, getFavorites, isFavorite, addRemoveFavorite } from '../controllers/supermarket.js';
+import { getAll, create, getNearby, getCategories, getFavorites, isFavorite, addRemoveFavorite } from '../controllers/supermarket.js';
   
 const router = express.Router();
 
 router
   .route('/')
   .get(getAll)
-  .post(getNearest)
+  .post(getNearby)
 
 router
   .route('/create')

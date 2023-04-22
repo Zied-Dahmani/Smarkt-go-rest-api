@@ -1,4 +1,4 @@
-import Item from "../models/item.js";
+import Review from "../models/review.js";
 import { validationResult } from "express-validator";
 
 export function create(req, res) {
@@ -6,13 +6,12 @@ export function create(req, res) {
       res.status(400).json({errors: validationResult(req).array() })
     }
     else 
-    Item.create({
-      name: req.body.name,
-      //image:`${req.protocol}://${req.get('host')}/img/${req.file.filename}`,
-      image: req.body.image,
+    Review.create({
+      title: req.body.title,
+      username: req.body.username,
+      rating : req.body.rating,
       description: req.body.description,
-      price: req.body.price,
-      category: req.body.category,
+      userId: req.body.userId,
       supermarketId: req.body.supermarketId,
       supermarketName: req.body.supermarketName
     })
@@ -23,27 +22,15 @@ export function create(req, res) {
         res.status(500).json({ error: err });
       });
   }
-
-
-export function getAllBySupermarketIdAndCategory(req, res) {
-    Item.find({category: req.body.category, supermarketId: req.body.supermarketId})
+  
+export function getSupermarketReviews(req, res) {
+    Review.find({supermarketId: req.body.supermarketId})
     .then((docs) => {
       let list = [];
       for (let i = 0; i < docs.length; i++) {
         list.push(docs[i]);
       }
       res.status(200).json(list);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-}
-
-  
-export function bestSellers(req, res) {
-  Item.find({}).sort({ sales: -1 }).limit(5)
-    .then((docs) => {
-      res.status(200).json(docs);
     })
     .catch((err) => {
       res.status(500).json({ error: err });

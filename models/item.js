@@ -32,7 +32,11 @@ const itemSchema = new Schema(
         },
         quantity: {
             type: Number,
-            required: true
+            required: false
+        },
+        sales: {
+            type: Number,
+            required: false
         }
     },
     {

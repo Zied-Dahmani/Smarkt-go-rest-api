@@ -1,31 +1,34 @@
 import mongoose from 'mongoose';
 const { Schema, model } = mongoose;
 
-const supermarketSchema = new Schema(
+const reviewSchema = new Schema(
     {
-        name: {
+        title: {
             type: String,
             required: true
         },
-        images: {
-            type: Array,
+        username: {
+            type: String,
             required: true
         },
         description: {
+            type: String
+        },
+        rating: {
+            type: Number,
+            required: true
+        },
+        supermarketId: {
             type: String,
             required: true
         },
-        address: {
+        userId: {
             type: String,
             required: true
         },
-        location: {
-            type: Array,
-            required: true
-        },
-        favorites: {
-            type: Array,
-            required: true
+        supermarketName: {
+            type: String,
+            required: false
         }
     },
     {
@@ -33,4 +36,4 @@ const supermarketSchema = new Schema(
     }
 );
 
-export default model('Supermarket', supermarketSchema);
+export default model('Review', reviewSchema);

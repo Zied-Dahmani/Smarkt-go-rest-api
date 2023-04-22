@@ -3,6 +3,10 @@ const { Schema, model } = mongoose;
 
 const userSchema = new Schema(
     {
+        provider: {
+            type: String,
+            required: true
+        },
         id: {
             type: String,
             required: true
@@ -11,10 +15,14 @@ const userSchema = new Schema(
             type: String,
             required: false
         },
+        image: {
+            type: String,
+            required: false
+        },
         wallet: {
             type: Number,
-            required: true
-        },
+            required: false
+        }
     },
     {
         timestamps: true

@@ -8,8 +8,10 @@ import supermarketRoutes from './routes/supermarket.js';
 import itemRoutes from './routes/item.js';
 import orderRoutes from './routes/order.js';
 import ticketRoutes from './routes/ticket.js';
+import reviewRoutes from './routes/review.js';
 
 import { errorHandler, notFoundError } from './middlewares/error-handler.js';
+import multerConfig from './middlewares/multer-config.js';
 
 const app = express();
 const port = process.env.PORT || 9090;
@@ -33,14 +35,19 @@ mongoose.Promise = global.Promise;
 
 mongoose
   //.connect(`mongodb://localhost:27017/${databaseName}`)
-  .connect(`mongodb://mongo:zSj3YLDdEQN1EJYRyIPq@containers-us-west-96.railway.app:7213`)
+  .connect('mongodb+srv://zieddahmani:CsMWq2WknQjCMwaD@smarkt-go.yygbwgh.mongodb.net?retryWrites=true&w=majority')
   .then(() => {
     console.log(`Connected to ${databaseName}`);
   })
   .catch(err => {
     console.log(err);
   });
-
+  const upload = multerConfig('image', { fileSize: 100024 * 100024 * 5 });
+  app.post('/upload-image', upload, (req, res) => {
+    console.log(req.file); 
+    res.send({ message: 'Image uploaded successfully' });
+  });
+  
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
@@ -52,6 +59,8 @@ app.use('/supermarket', supermarketRoutes);
 app.use('/item', itemRoutes);
 app.use('/order', orderRoutes);
 app.use('/ticket', ticketRoutes);
+app.use('/review', reviewRoutes);
+
 
 app.use(errorHandler);
 app.use(notFoundError);
