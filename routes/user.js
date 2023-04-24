@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { signUp, signIn , signOut, updateProfile, getGroupMembers, getAllUsers, updateProfilePicture, updateWallet} from '../controllers/user.js';
+import { signUp, signIn , signOut, updateProfile, getGroupMembers, getAllUsers, updateProfilePicture, updateWallet, deleteMyAccount} from '../controllers/user.js';
 import {requireAuth } from '../middlewares/auth.js'
 
 const router = express.Router();
@@ -36,5 +36,9 @@ router
 router
   .route('/getAllUsers')
   .get(getAllUsers)
+
+router
+  .route('/deleteMyAccount')
+  .delete(requireAuth,deleteMyAccount)
 
 export default router;

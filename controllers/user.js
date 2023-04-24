@@ -138,3 +138,15 @@ export function getAllUsers(req, res) {
 }
 
 
+export function deleteMyAccount(req, res) {
+  User.deleteOne({_id: req.user._id})
+        .then((order) => 
+        {
+          res.status(200).json({"msg":"success"});
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err });
+        });
+}
+
+
