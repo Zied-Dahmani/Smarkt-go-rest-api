@@ -1,5 +1,7 @@
 import Order from "../models/order.js";
 import Item from "../models/item.js";
+import User from "../models/user.js";
+import mongoose from 'mongoose';
 
 import { validationResult } from "express-validator";
 
@@ -170,31 +172,25 @@ export function deleteOrder(req, res) {
 }
 
 
-export function addUser(req, res) {
-  
-  if(!validationResult(req).isEmpty()){
-    res.status(400).json({errors: validationResult(req).array() })
-  }
-  else 
-  Order.find({})
-    .then((docs) => {
-      for (let i = 0; i < docs.length; i++) {
-        if(docs[i].group.includes(req.body.userId))
-        {
-          Order.findOneAndUpdate({_id:docs[i]._id},{group: req.body.group})
-          .then(() => 
-          { 
-            res.status(200).json({});
-          })
-          .catch((err) => {
-
-
-          });
-        }
+export async function addUser(req, res) {
+  if (!validationResult(req).isEmpty()) {
+    res.status(400).json({errors: validationResult(req).array()})
+  } else {
+    try {
+      const order = await Order.findOne({ isDelivered: false })
+      if (!order) {
+        res.status(404).json({ error: "No  order found" })
+        return
       }
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err });
-    });
-
+      order.group.push(mongoose.Types.ObjectId(req.body.group))
+      await order.save()
+      res.status(200).json({})
+    } catch (err) {
+      console.log(err)
+      res.status(500).json({ error: err })
+    }
+  }
 }
+
+
+

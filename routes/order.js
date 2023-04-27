@@ -5,6 +5,8 @@ import {requireAuth } from '../middlewares/auth.js'
   
 const router = express.Router();
 
+
+
 router
   .post('/addToCart',requireAuth,addToCart);
 
@@ -22,7 +24,11 @@ router
   .post('/delete',requireAuth,deleteOrder);
 
 
+
 router
   .route('/addUser')
   .post(addUser)
+
+ 
+
 export default router;
