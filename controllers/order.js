@@ -1,6 +1,7 @@
 import Order from "../models/order.js";
 import Item from "../models/item.js";
 import User from "../models/user.js";
+import Message from "../models/message.js";
 import mongoose from 'mongoose';
 
 import { validationResult } from "express-validator";
@@ -191,6 +192,100 @@ export async function addUser(req, res) {
     }
   }
 }
+
+export async function getNonMembers(req, res) {
+  if (!validationResult(req).isEmpty()) {
+    res.status(400).json({errors: validationResult(req).array()})
+    return
+  }
+
+  try {
+    const order = await Order.findOne({ isDelivered: false })
+    if (!order) {
+      res.status(403).json({ error: "No order found" })
+      return
+    }
+
+    const users = await User.find({})
+    const orderGroupIds = order.group.map(id => id.toString())
+    const usersNotInGroup = users.filter(user => !orderGroupIds.includes(user._id.toString()))
+                      .map(user => ({ _id: user._id, fullName: user.fullName, image: user.image,provider: user.provider }));
+
+    res.status(200).json(usersNotInGroup);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: err })
+  }
+}
+
+export async function sendMessage(req, res) {
+  const { senderId, content } = req.body;
+
+  try {
+    const order = await Order.findOne({ isDelivered: false });
+    if (!order) {
+      return res.status(404).json({ error: 'No active order found' });
+    }
+
+    const message = new Message({
+      sender: senderId,
+      order: order._id,
+      content
+    });
+
+    await message.save();
+    
+    order.messages.push(message._id); 
+    await order.save(); 
+
+    res.status(200).json({ message });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Unable to send message' });
+  }
+}
+
+export async function getMessages(req, res) {
+
+  try {
+    const order = await Order.findOne({ isDelivered: false });
+    if (!order) {
+      return res.status(404).json({ error: 'No active order found' });
+    }
+    const userId = mongoose.Types.ObjectId(req.body.userId);
+    console.log("userid is "+userId)
+    if (!order.group.includes(userId)) {
+      return res.status(403).json({ error: 'User not authorized to access messages' });
+    }
+    const messages = await Message.find({ order: order })
+      .populate('sender', 'fullName image provider')
+      .sort({ createdAt: 'asc' })
+      .select('content createdAt sender');
+
+    const formattedMessages = messages.map(message => {
+      return {
+        provider: message.sender.provider,
+        fullName: message.sender.fullName,
+        image: message.sender.image,
+        _id: message._id,
+        content: message.content,
+        createdAt: message.createdAt
+      }
+    });
+
+    res.status(200).json(formattedMessages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Unable to get messages' });
+  }
+}
+
+
+
+
+
+
+
 
 
 

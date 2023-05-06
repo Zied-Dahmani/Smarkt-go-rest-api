@@ -33,8 +33,8 @@ app.use("gse/",(req,res,next)=> {
 mongoose.set('debug', true);
 mongoose.Promise = global.Promise;
 mongoose
- // .connect(`mongodb://localhost:27017/${databaseName}`)
-  .connect('mongodb+srv://zieddahmani:CsMWq2WknQjCMwaD@smarkt-go.yygbwgh.mongodb.net?retryWrites=true&w=majority')
+  .connect(`mongodb://localhost:27017/${databaseName}`)
+ // .connect('mongodb+srv://zieddahmani:CsMWq2WknQjCMwaD@smarkt-go.yygbwgh.mongodb.net?retryWrites=true&w=majority')
   .then(() => {
     console.log(`Connected to ${databaseName}`);
   })

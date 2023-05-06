@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { addToCart, addUser, deleteOrder, get, getMyOrders, removeItem } from '../controllers/order.js';
+import { addToCart, addUser, deleteOrder, get, getMessages, getMyOrders, getNonMembers, removeItem, sendMessage } from '../controllers/order.js';
 import {requireAuth } from '../middlewares/auth.js'
   
 const router = express.Router();
@@ -23,7 +23,14 @@ router
 router
   .post('/delete',requireAuth,deleteOrder);
 
+router
+.get('/getNonMembers',getNonMembers);
 
+router
+.post('/send',sendMessage);
+
+router
+.post('/chat',getMessages);
 
 router
   .route('/addUser')

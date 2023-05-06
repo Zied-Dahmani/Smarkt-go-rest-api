@@ -19,7 +19,11 @@ const orderSchema = new Schema(
         dateTime: {
             type: Date,
             required: true
-        }
+        },
+        messages: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Message'
+          }]
     },
     {
         timestamps: true
