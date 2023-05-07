@@ -17,6 +17,54 @@ const app = express();
 const port = process.env.PORT || 9090;
 const databaseName = 'Smarkt-Go';
 
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Smarkt GO Rest API',
+    version: '1.0.0',
+    description:
+      'This is a REST API application made with Express for Smarkt Go',
+    license: {
+      name: 'Licensed Under MIT',
+      url: 'https://spdx.org/licenses/MIT.html',
+    },
+    contact: {
+      name: 'JSONPlaceholder',
+      url: 'https://jsonplaceholder.typicode.com',
+    },
+  },
+  servers: [
+    {
+      url: 'http://localhost:9090',
+      description: 'Smarkt GO',
+    },
+  ],
+};
+
+
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['./routes/*.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+
+
+
+
+
 app.use(express.json());
 
 

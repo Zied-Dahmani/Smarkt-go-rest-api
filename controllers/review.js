@@ -24,6 +24,7 @@ export function create(req, res) {
   }
   
 export function getSupermarketReviews(req, res) {
+  console.log("the id is :"+req.body.supermarketId)
     Review.find({supermarketId: req.body.supermarketId})
     .then((docs) => {
       let list = [];
