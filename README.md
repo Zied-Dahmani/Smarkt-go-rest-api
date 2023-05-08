@@ -9,7 +9,6 @@ The backend of this project was built using Node.js, with the primary framework 
 
 * NodeJs
 * ExpressJs
-* Firebase
 * MongoDB
 
 
