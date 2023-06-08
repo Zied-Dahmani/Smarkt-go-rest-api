@@ -19,7 +19,7 @@ Smarkt Go requires [Node.js](https://nodejs.org/) v16+ to run.
 
 1. Clone the repo
 ``` 
-git clone https://github.com/ZiedDaedly/Smarkt-go-rest-api
+git clone https://github.com/Zied-Dahmani/Smarkt-go-rest-api
 ```
 
 2. Install NPM packages
