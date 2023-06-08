@@ -12,6 +12,8 @@ const createToken = (id) => {
 };
 
 
+
+
 export const signUp = async (req, res) => {
   
   const userCount = (await User.countDocuments()) + 1
